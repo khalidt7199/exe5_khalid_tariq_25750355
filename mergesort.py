@@ -1,51 +1,74 @@
-def ASSIGNMENT(new_list, i, old_list, j):
+import matplotlib.pyplot as plt
+
+def assign(new_list, i, old_list, j):
+    """
+    Assigns the value from old_list[j] to new_list[i].
+
+    Parameters:
+    new_list (list): The list receiving the value.
+    i (int): The index in the new_list to assign the value to.
+    old_list (list): The list providing the value.
+    j (int): The index in the old_list to get the value from.
+    """
     new_list[i] = old_list[j]
 
+def merge_sort(lst):
+    """
+    Sorts a list in ascending order using the merge sort algorithm.
 
-def mergeSort(list_to_sort_by_merge):
-    if (
-        len(list_to_sort_by_merge) > 1
-        and not len(list_to_sort_by_merge) < 1
-        and len(list_to_sort_by_merge) != 0
-    ):
-        mid = len(list_to_sort_by_merge) // 2
-        left = list_to_sort_by_merge[:mid]
-        right = list_to_sort_by_merge[mid:]
+    Parameters:
+    lst (list): The list to be sorted.
+    """
+    if len(lst) > 1:
+        mid = len(lst) // 2
+        left = lst[:mid]
+        right = lst[mid:]
 
-        mergeSort(left)
-        mergeSort(right)
+        merge_sort(left)
+        merge_sort(right)
 
-        l = 0
-        r = 0
-        i = 0
+        l, r, i = 0, 0, 0
 
+        # Merging the left and right sublists
         while l < len(left) and r < len(right):
             if left[l] <= right[r]:
-                ASSIGNMENT(new_list=list_to_sort_by_merge, i=i, old_list=left, j=l)
+                assign(lst, i, left, l)
                 l += 1
             else:
-                ASSIGNMENT(new_list=list_to_sort_by_merge, i=i, old_list=right, j=r)
+                assign(lst, i, right, r)
                 r += 1
             i += 1
 
+        # Copying remaining elements of left, if any
         while l < len(left):
-            list_to_sort_by_merge[i] = left[l]
+            lst[i] = left[l]
             l += 1
             i += 1
 
+        # Copying remaining elements of right, if any
         while r < len(right):
-            list_to_sort_by_merge[i] = right[r]
+            lst[i] = right[r]
             r += 1
             i += 1
 
+if __name__ == "__main__":
+    my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
+    
+    # Plotting the unsorted list using a bar plot
+    plt.figure(figsize=(10, 5))
+    plt.bar(range(len(my_list)), my_list, color='skyblue')
+    plt.title('Unsorted List')
+    plt.xlabel('Index')
+    plt.ylabel('Value')
+    plt.show()
 
-import matplotlib.pyplot as plt
-
-my_list = [54, 26, 93, 17, 77, 31, 44, 55, 20]
-x = range(len(my_list))
-plt.plot(x, my_list)
-plt.show()
-mergeSort(my_list)
-x = range(len(my_list))
-plt.plot(x, my_list)
-plt.show()
+    # Sorting the list using merge_sort
+    merge_sort(my_list)
+    
+    # Plotting the sorted list using a bar plot
+    plt.figure(figsize=(10, 5))
+    plt.bar(range(len(my_list)), my_list, color='skyblue')
+    plt.title('Sorted List')
+    plt.xlabel('Index')
+    plt.ylabel('Value')
+    plt.show()
